@@ -174,7 +174,7 @@ export default function DrawingCanvas({
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            Doodles (5 Classes)
+            Doodles (10 Classes)
           </button>
         </div>
       </div>
@@ -217,7 +217,7 @@ export default function DrawingCanvas({
             <div className="absolute inset-1.5 flex flex-col items-center justify-center pointer-events-none text-slate-500">
               <MousePointer className="w-6 h-6 mb-2 animate-bounce opacity-40 text-indigo-400" />
               <span className="text-xs font-medium text-slate-400">
-                {mode === 'digit' ? 'Draw a digit (0 to 9) here' : 'Draw a cat, car, house, tree, or flower'}
+                {mode === 'digit' ? 'Draw a digit (0 to 9) here' : 'Draw a star, cat, car, apple, fish, house...'}
               </span>
               <span className="text-[10px] text-slate-600 mt-0.5">Mouse, Touch or Stylus supported</span>
             </div>

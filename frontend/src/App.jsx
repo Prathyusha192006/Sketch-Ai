@@ -232,7 +232,7 @@ export default function App() {
         // Record drawn class
         curr.drawnClasses = curr.drawnClasses || {};
         curr.drawnClasses[top.label] = true;
-        const allDoodles = ['cat', 'car', 'house', 'tree', 'flower'];
+        const allDoodles = ['cat', 'car', 'house', 'tree', 'flower', 'star', 'apple', 'fish', 'airplane', 'cloud'];
         if (allDoodles.every(d => curr.drawnClasses[d])) {
           badges['doodle_all'] = true;
         }
@@ -292,18 +292,18 @@ export default function App() {
               </div>
 
               {/* Quick Target Changer */}
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1 flex-wrap">
                 <span className="text-xs text-slate-400 mr-1 hidden md:inline">Change Target:</span>
                 {(mode === 'digit' 
                   ? ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] 
-                  : ['cat', 'car', 'house', 'tree', 'flower']
+                  : ['cat', 'car', 'house', 'tree', 'flower', 'star', 'apple', 'fish', 'airplane', 'cloud']
                 ).map(t => (
                   <button
                     key={t}
                     onClick={() => setCurrentTarget(t)}
-                    className={`px-2 py-0.5 rounded text-xs font-bold transition-all ${
+                    className={`px-2 py-0.5 rounded text-xs font-bold capitalize transition-all ${
                       currentTarget === t
-                        ? 'bg-indigo-600 text-white shadow'
+                        ? 'bg-pink-600 text-white shadow'
                         : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
                     }`}
                   >

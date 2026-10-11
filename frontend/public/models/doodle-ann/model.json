@@ -86,7 +86,7 @@
               },
               "registered_name": null
             },
-            "units": 128,
+            "units": 256,
             "activation": "relu",
             "use_bias": true,
             "kernel_initializer": {
@@ -133,7 +133,7 @@
               },
               "registered_name": null
             },
-            "rate": 0.2,
+            "rate": 0.25,
             "seed": null,
             "noise_shape": null
           },
@@ -153,7 +153,7 @@
               },
               "registered_name": null
             },
-            "units": 64,
+            "units": 128,
             "activation": "relu",
             "use_bias": true,
             "kernel_initializer": {
@@ -182,9 +182,29 @@
           "build_config": {
             "input_shape": [
               null,
-              128
+              256
             ]
           }
+        },
+        {
+          "module": "keras.layers",
+          "class_name": "Dropout",
+          "config": {
+            "name": "ann_dropout_2",
+            "trainable": true,
+            "dtype": {
+              "module": "keras",
+              "class_name": "DTypePolicy",
+              "config": {
+                "name": "float32"
+              },
+              "registered_name": null
+            },
+            "rate": 0.2,
+            "seed": null,
+            "noise_shape": null
+          },
+          "registered_name": null
         },
         {
           "module": "keras.layers",
@@ -200,7 +220,7 @@
               },
               "registered_name": null
             },
-            "units": 5,
+            "units": 10,
             "activation": "softmax",
             "use_bias": true,
             "kernel_initializer": {
@@ -229,7 +249,7 @@
           "build_config": {
             "input_shape": [
               null,
-              64
+              128
             ]
           }
         }
@@ -294,44 +314,44 @@
           "name": "ann_dense_1/kernel",
           "shape": [
             784,
-            128
+            256
           ],
           "dtype": "float32"
         },
         {
           "name": "ann_dense_1/bias",
           "shape": [
-            128
+            256
           ],
           "dtype": "float32"
         },
         {
           "name": "ann_dense_2/kernel",
           "shape": [
-            128,
-            64
+            256,
+            128
           ],
           "dtype": "float32"
         },
         {
           "name": "ann_dense_2/bias",
           "shape": [
-            64
+            128
           ],
           "dtype": "float32"
         },
         {
           "name": "ann_output/kernel",
           "shape": [
-            64,
-            5
+            128,
+            10
           ],
           "dtype": "float32"
         },
         {
           "name": "ann_output/bias",
           "shape": [
-            5
+            10
           ],
           "dtype": "float32"
         }

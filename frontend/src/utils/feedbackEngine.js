@@ -23,7 +23,12 @@ const CONFUSION_KNOWLEDGE = {
   'car_house': 'A boxy car without distinct circular wheels can be classified as a small house or building.',
   'house_tree': 'A steep triangular roof on a rectangular base shares vertical aspect ratios with an upright pine tree.',
   'tree_flower': 'Both trees and flowers consist of a central vertical stem with a rounded canopy or blossom.',
-  'flower_tree': 'If petals are drawn as a continuous cloud rather than distinct circles, the model sees a tree canopy.'
+  'flower_tree': 'If petals are drawn as a continuous cloud rather than distinct circles, the model sees a tree canopy.',
+  'star_flower': 'Stars drawn with rounded points share symmetric radiating patterns with flower petals.',
+  'star_cat': 'A star drawn with sharp upward diagonal points can occasionally trigger cat ear feature filters if points are clustered at the top.',
+  'apple_flower': 'An apple without a distinct top stem or leaf looks like a round flower center.',
+  'airplane_fish': 'An airplane fuselage with tail elevators shares horizontal streamlined contours with a swimming fish.',
+  'cloud_tree': 'Both clouds and leafy tree canopies consist of rounded, undulating bumps; ensure no vertical trunk is attached to a cloud.'
 };
 
 const TARGET_DRAWING_TIPS = {
@@ -42,7 +47,12 @@ const TARGET_DRAWING_TIPS = {
   'car': ['Draw a rectangular body with a raised cabin/roof.', 'Place two clearly separated circular wheels at the bottom.'],
   'house': ['Combine a triangular roof sitting atop a rectangular base.', 'Adding a central door or square window significantly boosts recognition confidence.'],
   'tree': ['Draw a sturdy vertical trunk at the bottom.', 'Place a rounded canopy or layered triangular pine foliage on top.'],
-  'flower': ['Draw a distinct central circle surrounded by 4 to 6 discrete petals.', 'Add a downward vertical stem from the blossom.']
+  'flower': ['Draw a distinct central circle surrounded by 4 to 6 discrete petals.', 'Add a downward vertical stem from the blossom.'],
+  'star': ['Draw a standard 5-pointed star with crisp, sharp points.', 'Use either a continuous five-stroke star (★) or an outline with five distinct triangular arms.'],
+  'apple': ['Draw a round circular or heart-shaped silhouette with a small top indentation.', 'Add a small vertical stem and an optional leaf at the top.'],
+  'fish': ['Draw a horizontal oval or teardrop body with a triangular tail fin.', 'Add an eye near the front or a gill curve to reinforce aquatic features.'],
+  'airplane': ['Draw a long horizontal fuselage with a pointed nose.', 'Add two wide horizontal wings projecting outwards and a vertical tail stabilizer.'],
+  'cloud': ['Draw a series of 3-5 connected puffy arches with a relatively flat underside.', 'Avoid adding vertical stems so it is not confused with a tree canopy.']
 };
 
 export function analyzeDrawingFeedback(target, predictionResult, canvasBox) {

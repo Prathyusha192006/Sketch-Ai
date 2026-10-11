@@ -86,6 +86,56 @@ export const INITIAL_CHALLENGES = [
     minConfidence: 0.80,
     points: 150,
     completed: false
+  },
+  {
+    id: 'ch_doodle_star',
+    mode: 'doodle',
+    target: 'star',
+    title: 'Celestial Star',
+    description: 'Draw a crisp 5-pointed star with sharp tips (>80% confidence).',
+    minConfidence: 0.80,
+    points: 150,
+    completed: false
+  },
+  {
+    id: 'ch_doodle_apple',
+    mode: 'doodle',
+    target: 'apple',
+    title: 'Crisp Orchard Apple',
+    description: 'Draw an apple with top indentation and stem (>80% confidence).',
+    minConfidence: 0.80,
+    points: 150,
+    completed: false
+  },
+  {
+    id: 'ch_doodle_fish',
+    mode: 'doodle',
+    target: 'fish',
+    title: 'Aquatic Creature',
+    description: 'Draw a swimming fish with tail fin (>80% confidence).',
+    minConfidence: 0.80,
+    points: 150,
+    completed: false
+  },
+  {
+    id: 'ch_doodle_airplane',
+    mode: 'doodle',
+    target: 'airplane',
+    title: 'Sky Jet',
+    description: 'Draw an airplane with fuselage and wings (>80% confidence).',
+    minConfidence: 0.80,
+    points: 150,
+    completed: false
+  },
+  {
+    id: 'ch_doodle_cloud',
+    mode: 'doodle',
+    target: 'cloud',
+    title: 'Cumulus Cloud',
+    description: 'Draw a puffy cloud with scalloped curves (>80% confidence).',
+    minConfidence: 0.80,
+    points: 150,
+    completed: false
   }
 ];
 

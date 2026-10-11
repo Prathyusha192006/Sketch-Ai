@@ -33,29 +33,29 @@ export const MODEL_CONFIGS = {
   },
   'doodle-ann': {
     id: 'doodle-ann',
-    name: 'QuickDraw Baseline ANN',
+    name: 'QuickDraw 10-Class Baseline ANN',
     type: 'ANN',
     mode: 'doodle',
-    classes: ['cat', 'car', 'house', 'tree', 'flower'],
+    classes: ['cat', 'car', 'house', 'tree', 'flower', 'star', 'apple', 'fish', 'airplane', 'cloud'],
     path: '/models/doodle-ann/model.json',
     weightsBundlePath: '/models/doodle-ann/weights_bundle.json',
-    sizeKb: 426,
-    params: 109061,
-    accuracy: '91.13%',
-    description: 'Dense Multilayer Perceptron baseline trained on Google Quick, Draw! doodles.'
+    sizeKb: 918,
+    params: 236042,
+    accuracy: '88.21%',
+    description: '10-Class Dense Multilayer Perceptron baseline trained on QuickDraw doodles.'
   },
   'doodle-cnn': {
     id: 'doodle-cnn',
-    name: 'QuickDraw High-Accuracy CNN',
+    name: 'QuickDraw 10-Class High-Accuracy CNN',
     type: 'CNN',
     mode: 'doodle',
-    classes: ['cat', 'car', 'house', 'tree', 'flower'],
+    classes: ['cat', 'car', 'house', 'tree', 'flower', 'star', 'apple', 'fish', 'airplane', 'cloud'],
     path: '/models/doodle-cnn/model.json',
     weightsBundlePath: '/models/doodle-cnn/weights_bundle.json',
-    sizeKb: 876,
-    params: 224389,
-    accuracy: '95.27%',
-    description: 'Deep Convolutional Network for complex shape, stroke, and semantic sketch classification.'
+    sizeKb: 945,
+    params: 241930,
+    accuracy: '93.97%',
+    description: 'Deep Convolutional Network for 10 categories: Cat, Car, House, Tree, Flower, Star, Apple, Fish, Airplane, Cloud.'
   }
 };
 
@@ -72,41 +72,61 @@ async function buildAndLoadFromWeightsBundle(config) {
 
   let model;
   if (config.type === 'CNN') {
-    model = tf.sequential({
-      layers: [
-        tf.layers.conv2d({
-          inputShape: [28, 28, 1],
-          kernelSize: 3,
-          filters: 32,
-          activation: 'relu',
-          padding: 'valid',
-          name: 'cnn_conv2d_1'
-        }),
-        tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_1' }),
-        tf.layers.conv2d({
-          kernelSize: 3,
-          filters: 64,
-          activation: 'relu',
-          padding: 'valid',
-          name: 'cnn_conv2d_2'
-        }),
-        tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_2' }),
-        tf.layers.flatten({ name: 'cnn_flatten' }),
-        tf.layers.dense({ units: 128, activation: 'relu', name: 'cnn_dense_1' }),
-        tf.layers.dropout({ rate: 0.25, name: 'cnn_dropout' }),
-        tf.layers.dense({ units: numClasses, activation: 'softmax', name: 'cnn_output' })
-      ]
-    });
+    if (config.mode === 'doodle') {
+      // 3 Conv blocks with BatchNorm
+      model = tf.sequential({
+        layers: [
+          tf.layers.conv2d({ inputShape: [28, 28, 1], kernelSize: 3, filters: 32, activation: 'relu', padding: 'same', name: 'cnn_conv2d_1' }),
+          tf.layers.batchNormalization({ name: 'cnn_bn_1' }),
+          tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_1' }),
+          tf.layers.conv2d({ kernelSize: 3, filters: 64, activation: 'relu', padding: 'same', name: 'cnn_conv2d_2' }),
+          tf.layers.batchNormalization({ name: 'cnn_bn_2' }),
+          tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_2' }),
+          tf.layers.conv2d({ kernelSize: 3, filters: 128, activation: 'relu', padding: 'same', name: 'cnn_conv2d_3' }),
+          tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_3' }),
+          tf.layers.flatten({ name: 'cnn_flatten' }),
+          tf.layers.dense({ units: 128, activation: 'relu', name: 'cnn_dense_1' }),
+          tf.layers.dropout({ rate: 0.3, name: 'cnn_dropout' }),
+          tf.layers.dense({ units: numClasses, activation: 'softmax', name: 'cnn_output' })
+        ]
+      });
+    } else {
+      model = tf.sequential({
+        layers: [
+          tf.layers.conv2d({ inputShape: [28, 28, 1], kernelSize: 3, filters: 32, activation: 'relu', padding: 'valid', name: 'cnn_conv2d_1' }),
+          tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_1' }),
+          tf.layers.conv2d({ kernelSize: 3, filters: 64, activation: 'relu', padding: 'valid', name: 'cnn_conv2d_2' }),
+          tf.layers.maxPooling2d({ poolSize: [2, 2], name: 'cnn_pool_2' }),
+          tf.layers.flatten({ name: 'cnn_flatten' }),
+          tf.layers.dense({ units: 128, activation: 'relu', name: 'cnn_dense_1' }),
+          tf.layers.dropout({ rate: 0.25, name: 'cnn_dropout' }),
+          tf.layers.dense({ units: numClasses, activation: 'softmax', name: 'cnn_output' })
+        ]
+      });
+    }
   } else {
-    model = tf.sequential({
-      layers: [
-        tf.layers.flatten({ inputShape: [28, 28, 1], name: 'ann_flatten' }),
-        tf.layers.dense({ units: 128, activation: 'relu', name: 'ann_dense_1' }),
-        tf.layers.dropout({ rate: 0.2, name: 'ann_dropout_1' }),
-        tf.layers.dense({ units: 64, activation: 'relu', name: 'ann_dense_2' }),
-        tf.layers.dense({ units: numClasses, activation: 'softmax', name: 'ann_output' })
-      ]
-    });
+    if (config.mode === 'doodle') {
+      model = tf.sequential({
+        layers: [
+          tf.layers.flatten({ inputShape: [28, 28, 1], name: 'ann_flatten' }),
+          tf.layers.dense({ units: 256, activation: 'relu', name: 'ann_dense_1' }),
+          tf.layers.dropout({ rate: 0.25, name: 'ann_dropout_1' }),
+          tf.layers.dense({ units: 128, activation: 'relu', name: 'ann_dense_2' }),
+          tf.layers.dropout({ rate: 0.20, name: 'ann_dropout_2' }),
+          tf.layers.dense({ units: numClasses, activation: 'softmax', name: 'ann_output' })
+        ]
+      });
+    } else {
+      model = tf.sequential({
+        layers: [
+          tf.layers.flatten({ inputShape: [28, 28, 1], name: 'ann_flatten' }),
+          tf.layers.dense({ units: 128, activation: 'relu', name: 'ann_dense_1' }),
+          tf.layers.dropout({ rate: 0.2, name: 'ann_dropout_1' }),
+          tf.layers.dense({ units: 64, activation: 'relu', name: 'ann_dense_2' }),
+          tf.layers.dense({ units: numClasses, activation: 'softmax', name: 'ann_output' })
+        ]
+      });
+    }
   }
 
   // Set weights layer by layer

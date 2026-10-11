@@ -100,7 +100,7 @@ export default function LearningCenter({
                 </div>
               ) : (
                 <div className="flex flex-wrap gap-1">
-                  {['cat', 'car', 'house', 'tree', 'flower'].map((doodle) => (
+                  {['cat', 'car', 'house', 'tree', 'flower', 'star', 'apple', 'fish', 'airplane', 'cloud'].map((doodle) => (
                     <button
                       key={doodle}
                       onClick={() => setCurrentTarget(doodle)}
